@@ -1,0 +1,6 @@
+- Install Java 23 and add JAVA_HOME to your path
+- Install MySQL 8.0.40.0
+- Start MySQL Server at localhost and port 3306
+- Make sure that you have a user "root" and password "root"
+- Create a database named rental_mgmt for user "root"
+- Execute `mvnw clean install` and `mvnw spring-boot:run` (if you are using windows use mvnw.cmd)
