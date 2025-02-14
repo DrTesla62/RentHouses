@@ -1,0 +1,22 @@
+/* src/app/components/auth/login/login.component.css */
+.card {
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.form-group label {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  padding: 0.75rem;
+  font-weight: 500;
+}
+
+.invalid-feedback {
+  font-size: 0.875rem;
+}

@@ -1,0 +1,79 @@
+<!-- property-detail.component.html -->
+<div class="container mt-5" *ngIf="property">
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2 class="card-title mb-0">{{property.title}}</h2>
+            <span class="badge" [ngClass]="getStatusBadgeClass()">
+              {{property.status}}
+            </span>
+          </div>
+
+          <div class="property-details">
+            <p class="h3 mb-3">{{property.price | currency}} / month</p>
+            <p class="mb-4">{{property.description}}</p>
+
+            <h4>Location</h4>
+            <p class="mb-4">{{property.address}}</p>
+
+            <h4>Property Owner</h4>
+            <p>{{property.owner?.username}}</p>
+          </div>
+
+          <!-- Action buttons based on user role and property status -->
+          <div class="mt-4">
+            <!-- For Renters -->
+            <button
+              *ngIf="isRenter && property.status === 'APPROVED'"
+              class="btn btn-primary me-2"
+              (click)="applyForRental()">
+              Apply for Rental
+            </button>
+
+            <!-- For Property Owners -->
+            <ng-container *ngIf="isOwner && property.owner?.id === currentUser?.id">
+              <button
+                class="btn btn-warning me-2"
+                (click)="editProperty()">
+                Edit Property
+              </button>
+              <button
+                class="btn btn-danger me-2"
+                (click)="deleteProperty()">
+                Delete Property
+              </button>
+            </ng-container>
+
+            <!-- For Admins -->
+            <button
+              *ngIf="isAdmin && property.status === 'PENDING_APPROVAL'"
+              class="btn btn-success me-2"
+              (click)="approveProperty()">
+              Approve Property
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sidebar -->
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Contact Information</h4>
+          <p class="card-text" *ngIf="!currentUser">
+            Please <a routerLink="/login">login</a> or <a routerLink="/register">register</a> to contact the property owner.
+          </p>
+          <div *ngIf="currentUser">
+            <p>Contact the owner directly:</p>
+            <button class="btn btn-outline-primary w-100" (click)="contactOwner()">
+              Message Owner
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

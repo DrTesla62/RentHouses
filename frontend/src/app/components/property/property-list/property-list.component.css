@@ -1,0 +1,30 @@
+/* src/app/components/property/property-list/property-list.component.css */
+.badge-pending {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.badge-approved {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.badge-rented {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.badge-unavailable {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+.bi-building {
+  font-size: 4rem;
+  color: #6c757d;
+}

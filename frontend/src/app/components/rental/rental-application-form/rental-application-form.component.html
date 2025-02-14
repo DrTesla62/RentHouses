@@ -1,0 +1,201 @@
+<div class="container mt-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <!-- Loading State -->
+      @if (loading) {
+      <div class="text-center">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+      </div>
+      }
+
+      <!-- Error Message -->
+      @if (errorMessage) {
+      <div class="alert alert-danger">
+        <h4 class="alert-heading">Error</h4>
+        <p>{{ errorMessage }}</p>
+        <hr>
+        <button class="btn btn-outline-primary" (click)="onCancel()">
+          Return to Property
+        </button>
+      </div>
+      }
+
+      <!-- Application Form -->
+      @if (!loading && !errorMessage) {
+      <div class="card">
+        <div class="card-body">
+          <h2 class="text-center mb-4">Rental Application</h2>
+
+          <!-- Property Summary -->
+          @if (property) {
+          <div class="property-summary mb-4">
+            <h4>Property Details</h4>
+            <div class="card bg-light">
+              <div class="card-body">
+                <h5 class="card-title">{{ property.title }}</h5>
+                <p class="card-text">{{ property.address }}</p>
+                <p class="card-text">
+                  <strong>Monthly Rent:</strong> ${{ property.price }}
+                </p>
+              </div>
+            </div>
+          </div>
+          }
+
+          <form [formGroup]="applicationForm" (ngSubmit)="onSubmit()">
+            <!-- Personal Information -->
+            <h4>Personal Information</h4>
+            <div class="form-group mb-3">
+              <label>Full Name</label>
+              <input
+                type="text"
+                formControlName="fullName"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['fullName'].errors }"
+              />
+              @if (submitted && f['fullName'].errors) {
+              <div class="invalid-feedback">
+                @if (f['fullName'].errors['required']) {
+                Full name is required
+                }
+              </div>
+              }
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Email</label>
+              <input
+                type="email"
+                formControlName="email"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+              />
+              @if (submitted && f['email'].errors) {
+              <div class="invalid-feedback">
+                @if (f['email'].errors['required']) {
+                Email is required
+                }
+                @if (f['email'].errors['email']) {
+                Please enter a valid email
+                }
+              </div>
+              }
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Phone Number</label>
+              <input
+                type="tel"
+                formControlName="phone"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['phone'].errors }"
+              />
+              @if (submitted && f['phone'].errors) {
+              <div class="invalid-feedback">
+                @if (f['phone'].errors['required']) {
+                Phone number is required
+                }
+              </div>
+              }
+            </div>
+
+            <!-- Employment Information -->
+            <h4 class="mt-4">Employment Information</h4>
+            <div class="form-group mb-3">
+              <label>Current Employer</label>
+              <input
+                type="text"
+                formControlName="employer"
+                class="form-control"
+                [ngClass]="{ 'is-invalid': submitted && f['employer'].errors }"
+              />
+              @if (submitted && f['employer'].errors) {
+              <div class="invalid-feedback">
+                @if (f['employer'].errors['required']) {
+                Employer is required
+                }
+              </div>
+              }
+            </div>
+
+            <div class="form-group mb-3">
+              <label>Monthly Income</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input
+                  type="number"
+                  formControlName="monthlyIncome"
+                  class="form-control"
+                  [ngClass]="{ 'is-invalid': submitted && f['monthlyIncome'].errors }"
+                />
+              </div>
+              @if (submitted && f['monthlyIncome'].errors) {
+              <div class="invalid-feedback">
+                @if (f['monthlyIncome'].errors['required']) {
+                Monthly income is required
+                }
+                @if (f['monthlyIncome'].errors['min']) {
+                Monthly income must be greater than 0
+                }
+              </div>
+              }
+            </div>
+
+            <!-- Additional Information -->
+            <h4 class="mt-4">Additional Information</h4>
+            <div class="form-group mb-3">
+              <label>Message to Owner</label>
+              <textarea
+                formControlName="message"
+                class="form-control"
+                rows="4"
+                placeholder="Optional: Include any additional information you'd like to share with the property owner"
+              ></textarea>
+            </div>
+
+            <!-- Terms and Conditions -->
+            <div class="form-check mb-3">
+              <input
+                type="checkbox"
+                formControlName="agreeToTerms"
+                class="form-check-input"
+                [ngClass]="{ 'is-invalid': submitted && f['agreeToTerms'].errors }"
+              />
+              <label class="form-check-label">
+                I agree to the terms and conditions and confirm that all provided information is accurate
+              </label>
+              @if (submitted && f['agreeToTerms'].errors) {
+              <div class="invalid-feedback">
+                @if (f['agreeToTerms'].errors['required']) {
+                You must agree to the terms
+                }
+              </div>
+              }
+            </div>
+
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-secondary" (click)="onCancel()">
+                Cancel
+              </button>
+              <button
+                type="submit"
+                class="btn btn-primary"
+                [disabled]="loading"
+              >
+                @if (loading) {
+                <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+                Submitting...
+                } @else {
+                Submit Application
+                }
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>

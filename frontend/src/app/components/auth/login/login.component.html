@@ -1,0 +1,76 @@
+<!-- src/app/components/auth/login/login.component.html -->
+<div class="row justify-content-center mt-5">
+  <div class="col-md-6">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="text-center mb-4">Login</h2>
+
+        @if (errorMessage) {
+        <div class="alert alert-danger">
+          {{errorMessage}}
+        </div>
+        }
+
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+          <div class="form-group mb-3">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              class="form-control"
+              [class.is-invalid]="f['username'].invalid && f['username'].touched"
+            />
+            @if (f['username'].invalid && f['username'].touched) {
+            <div class="invalid-feedback">
+              @if (f['username'].errors?.['required']) {
+              Username is required
+              }
+              @if (f['username'].errors?.['minlength']) {
+              Username must be at least 3 characters
+              }
+            </div>
+            }
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="password">Password</label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              class="form-control"
+              [class.is-invalid]="f['password'].invalid && f['password'].touched"
+            />
+            @if (f['password'].invalid && f['password'].touched) {
+            <div class="invalid-feedback">
+              @if (f['password'].errors?.['required']) {
+              Password is required
+              }
+              @if (f['password'].errors?.['minlength']) {
+              Password must be at least 6 characters
+              }
+            </div>
+            }
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-primary w-100"
+            [disabled]="loginForm.invalid || loading">
+            @if (loading) {
+            <span class="spinner-border spinner-border-sm me-2" role="status"></span>
+            Logging in...
+            } @else {
+            Login
+            }
+          </button>
+
+          <div class="text-center mt-3">
+            <p class="mb-0">Don't have an account? <a routerLink="/register" class="text-primary">Register here</a></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

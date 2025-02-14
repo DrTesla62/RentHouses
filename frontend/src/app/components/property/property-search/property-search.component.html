@@ -1,0 +1,97 @@
+<!-- src/app/components/property/property-search/property-search.component.html -->
+<div class="search-container">
+  <form [formGroup]="filterForm">
+    <!-- Basic Search -->
+    <div class="row g-3 align-items-center mb-3">
+      <div class="col-md-8">
+        <div class="input-group">
+          <span class="input-group-text">
+            <i class="bi bi-search"></i>
+          </span>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Search by property name, address..."
+            formControlName="searchTerm"
+          >
+        </div>
+      </div>
+      <div class="col-md-4">
+        <button
+          type="button"
+          class="btn btn-outline-primary w-100"
+          (click)="toggleAdvancedFilters()"
+        >
+          {{ showAdvancedFilters ? 'Hide' : 'Show' }} Advanced Filters
+          <i class="bi" [ngClass]="showAdvancedFilters ? 'bi-chevron-up' : 'bi-chevron-down'"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Advanced Filters -->
+    <div class="advanced-filters" *ngIf="showAdvancedFilters">
+      <div class="row g-3">
+        <!-- Price Range -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title">Price Range</h6>
+              <div class="row g-2">
+                <div class="col-6">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Min"
+                      formControlName="minPrice"
+                    >
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input
+                      type="number"
+                      class="form-control"
+                      placeholder="Max"
+                      formControlName="maxPrice"
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Status -->
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body">
+              <h6 class="card-title">Property Status</h6>
+              <select class="form-select" formControlName="status">
+                <option value="">All Statuses</option>
+                <option *ngFor="let status of propertyStatuses" [value]="status">
+                  {{ formatStatus(status) }}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Clear Filters -->
+      <div class="row mt-3">
+        <div class="col">
+          <button
+            type="button"
+            class="btn btn-outline-secondary"
+            (click)="clearFilters()"
+          >
+            Clear All Filters
+          </button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

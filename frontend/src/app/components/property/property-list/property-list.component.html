@@ -1,0 +1,52 @@
+<div class="container mt-5">
+  <!-- Header Section -->
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Available Properties</h2>
+    </div>
+    <div class="col-auto">
+      <ng-container *ngIf="isOwner">
+        <a class="btn btn-primary" [routerLink]="['/properties/new']">
+          Add New Property
+        </a>
+      </ng-container>
+    </div>
+  </div>
+
+  <!-- Loading State -->
+  <div *ngIf="loading" class="text-center py-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error" class="alert alert-danger">
+    {{ error }}
+  </div>
+
+  <!-- Properties Grid -->
+  <div *ngIf="!loading && !error" class="row">
+    <div *ngIf="filteredProperties.length === 0" class="col-12">
+      <div class="alert alert-info text-center">
+        No properties found.
+      </div>
+    </div>
+    <div *ngFor="let property of filteredProperties" class="col-md-4 mb-4">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">{{ property.title }}</h5>
+          <p class="card-text">{{ property.description }}</p>
+          <p class="card-text">
+            <strong>Price:</strong> ${{ property.price }}/month
+          </p>
+          <div class="d-flex justify-content-between align-items-center">
+            <a [routerLink]="['/properties', property.id]" class="btn btn-primary">
+              View Details
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

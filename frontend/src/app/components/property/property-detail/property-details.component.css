@@ -1,0 +1,32 @@
+.badge {
+  padding: 8px 12px;
+  font-size: 0.9em;
+}
+
+.badge-pending {
+  background-color: #ffd700;
+  color: #000;
+}
+
+.badge-approved {
+  background-color: #28a745;
+  color: #fff;
+}
+
+.badge-rented {
+  background-color: #17a2b8;
+  color: #fff;
+}
+
+.badge-unavailable {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.property-details {
+  margin-bottom: 2rem;
+}
+
+.card {
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}

@@ -1,0 +1,135 @@
+<!-- src/app/components/rental/application-management/application-management.component.html -->
+<div class="container mt-5">
+  <h2 class="mb-4">Rental Applications</h2>
+
+  <!-- Filters -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label">Filter by Status</label>
+          <select class="form-select" [(ngModel)]="statusFilter" (change)="applyFilters()">
+            <option value="all">All</option>
+            <option value="PENDING">Pending</option>
+            <option value="APPROVED">Approved</option>
+            <option value="REJECTED">Rejected</option>
+          </select>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label">Sort by</label>
+          <select class="form-select" [(ngModel)]="sortBy" (change)="applyFilters()">
+            <option value="date">Date (Newest First)</option>
+            <option value="status">Status</option>
+            <option value="property">Property</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Applications List -->
+  <div class="applications-list">
+    <div class="card mb-3" *ngFor="let application of filteredApplications">
+      <div class="card-body">
+        <div class="row">
+          <!-- Application Details -->
+          <div class="col-md-8">
+            <h5 class="card-title">{{application.property.title}}</h5>
+            <p class="card-text">
+              <strong>Applicant:</strong> {{application.renter.username}}<br>
+              <strong>Status:</strong>
+              <span class="badge" [ngClass]="getStatusBadgeClass(application.status)">
+                {{application.status}}
+              </span>
+            </p>
+            <p class="card-text">
+              <small class="text-muted">Applied on: {{application.createdAt | date}}</small>
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="col-md-4 text-end">
+            <button
+              class="btn btn-primary me-2"
+              (click)="viewDetails(application)">
+              View Details
+            </button>
+            <ng-container *ngIf="application.status === 'PENDING'">
+              <button
+                class="btn btn-success me-2"
+                (click)="approveApplication(application)">
+                Approve
+              </button>
+              <button
+                class="btn btn-danger"
+                (click)="rejectApplication(application)">
+                Reject
+              </button>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- No Applications Message -->
+    <div class="alert alert-info" *ngIf="filteredApplications.length === 0">
+      No applications found matching your criteria.
+    </div>
+  </div>
+</div>
+
+<!-- Application Details Modal -->
+<div class="modal" tabindex="-1" [ngClass]="{'show d-block': selectedApplication}">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content" *ngIf="selectedApplication">
+      <div class="modal-header">
+        <h5 class="modal-title">Application Details</h5>
+        <button type="button" class="btn-close" (click)="closeModal()"></button>
+      </div>
+      <div class="modal-body">
+        <div class="application-details">
+          <h4>Property Information</h4>
+          <p>
+            <strong>Title:</strong> {{selectedApplication.property.title}}<br>
+            <strong>Address:</strong> {{selectedApplication.property.address}}<br>
+            <strong>Monthly Rent:</strong> {{selectedApplication.property.price | currency}}
+          </p>
+
+          <h4>Applicant Information</h4>
+          <p>
+            <strong>Name:</strong> {{selectedApplication.renter.username}}<br>
+            <strong>Email:</strong> {{selectedApplication.renter.email}}<br>
+            <strong>Phone:</strong> {{selectedApplication.renter.phone}}
+          </p>
+
+          <h4>Application Status</h4>
+          <p>
+            <span class="badge" [ngClass]="getStatusBadgeClass(selectedApplication.status)">
+              {{selectedApplication.status}}
+            </span>
+          </p>
+
+          <h4>Additional Notes</h4>
+          <p>{{selectedApplication.message || 'No additional notes provided.'}}</p>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+        <ng-container *ngIf="selectedApplication.status === 'PENDING'">
+          <button
+            type="button"
+            class="btn btn-success me-2"
+            (click)="approveApplication(selectedApplication)">
+            Approve
+          </button>
+          <button
+            type="button"
+            class="btn btn-danger"
+            (click)="rejectApplication(selectedApplication)">
+            Reject
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

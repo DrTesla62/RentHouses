@@ -1,0 +1,124 @@
+<!-- property-approval.component.html -->
+<div class="container mt-5">
+  <div class="row">
+    <!-- Properties List -->
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+          <h3 class="mb-0">Pending Properties</h3>
+          <span class="badge bg-primary">{{ pendingProperties.length }} Pending</span>
+        </div>
+        <div class="card-body">
+          <!-- Loading State -->
+          @if (loading) {
+          <div class="text-center py-4">
+            <div class="spinner-border text-primary" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          }
+
+          <!-- Error State -->
+          @if (error) {
+          <div class="alert alert-danger">
+            {{ error }}
+          </div>
+          }
+
+          <!-- Properties List -->
+          @if (!loading && !error) {
+          @if (pendingProperties.length === 0) {
+          <div class="text-center py-4">
+            <i class="bi bi-check-circle text-success fs-1"></i>
+            <p class="mt-2">No pending properties to review!</p>
+          </div>
+          } @else {
+          @for (property of pendingProperties; track property.id) {
+          <div class="card mb-3">
+            <div class="card-body">
+              <div class="d-flex justify-content-between align-items-start">
+                <div>
+                  <h5 class="card-title">{{ property.title || 'Untitled Property' }}</h5>
+                  <p class="card-text text-muted">
+                    Submitted by: {{ property?.owner?.username || 'Unknown Owner' }}
+                  </p>
+                  <p class="card-text">
+                    <strong>Price:</strong> ${{ property.price || 0 }}/month<br>
+                    <strong>Address:</strong> {{ property.address || 'No address provided' }}
+                  </p>
+                </div>
+                <div class="btn-group">
+                  <button
+                    class="btn btn-outline-primary"
+                    (click)="viewDetails(property)">
+                    View Details
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          }
+          }
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Property Details -->
+    <div class="col-md-4">
+      @if (selectedProperty) {
+      <div class="card">
+        <div class="card-header">
+          <h4 class="mb-0">Property Details</h4>
+        </div>
+        <div class="card-body">
+          <h5>{{ selectedProperty.title || 'Untitled Property' }}</h5>
+
+          <div class="mb-3">
+            <h6>Description</h6>
+            <p>{{ selectedProperty.description || 'No description provided' }}</p>
+          </div>
+
+          <div class="mb-3">
+            <h6>Location</h6>
+            <p>{{ selectedProperty.address || 'No address provided' }}</p>
+          </div>
+
+          <div class="mb-3">
+            <h6>Price</h6>
+            <p>${{ selectedProperty.price || 0 }}/month</p>
+          </div>
+
+          <div class="mb-3">
+            <h6>Owner Information</h6>
+            <p>
+              Name: {{ selectedProperty?.owner?.username || 'Unknown Owner' }}
+            </p>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-grid gap-2">
+            <button
+              class="btn btn-success"
+              (click)="approveProperty(selectedProperty.id)">
+              Approve Property
+            </button>
+            <button
+              class="btn btn-danger"
+              (click)="rejectProperty(selectedProperty.id)">
+              Reject Property
+            </button>
+          </div>
+        </div>
+      </div>
+      } @else {
+      <div class="card">
+        <div class="card-body text-center py-5">
+          <i class="bi bi-arrow-left-circle fs-1 text-muted"></i>
+          <p class="mt-2">Select a property to view details</p>
+        </div>
+      </div>
+      }
+    </div>
+  </div>
+</div>
