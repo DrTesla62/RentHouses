@@ -34,6 +34,12 @@ public class PropertyController {
         return propertyService.createProperty(property);
     }
 
+    @GetMapping("/admin")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public List<Property> getAllPropertiesForAdmin() {
+        return propertyService.getAllProperties();
+    }
+
     @GetMapping("/{id}")
     public Property getPropertyById(@PathVariable Long id) {
         return propertyService.getPropertyById(id);

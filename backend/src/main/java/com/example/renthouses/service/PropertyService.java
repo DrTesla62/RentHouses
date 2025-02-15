@@ -8,6 +8,7 @@ public interface PropertyService {
     Property createProperty(Property property);
     Property getPropertyById(Long id);
     List<Property> getAllProperties();
+    List<Property> getAllPropertiesAdmin();
     List<Property> getApprovedProperties();
     Property updateProperty(Property property);
     void deleteProperty(Long id);

@@ -41,6 +41,10 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.findByStatus(PropertyStatus.APPROVED);
     }
 
+    public List<Property> getAllPropertiesAdmin() {
+        return propertyRepository.findAll();
+    }
+
     @Override
     public Property updateProperty(Property property) {
         return propertyRepository.save(property);
